@@ -1,7 +1,7 @@
 # Computing Project 2024
 
 ## Contents
-- [Computing-Project-2024](#computing-project-2024)- [Computing Project 2024](#computing-project-2024)
+- [Computing Project 2024](#computing-project-2024)
   - [Contents](#contents)
   - [Requirements Gathering](#requirements-gathering)
   - [Analysis](#analysis)
