@@ -48,6 +48,31 @@ sequenceDiagram
     Tool->>User: Display report and recommendations
 ```
 ```mermaid
+---
+title: Sequence Diagram for Text Analyser
+---
+stateDiagram-v2
+    State_Idle: Waiting for users input
+    note left of State_Idle
+        Tool is waiting for a user to select a course
+    end note
+    State_Analysing: Analysing text readability
+    State_Reporting: Generating report and reccomendations
+    note right of State_Reporting
+        Report is being generated
+    end note
+    State_Done: Results displayed
+    note right of State_Done
+        Results displayed to user
+    end note
+    
+    State_Idle-->State_Analysing: User selects course
+    State_Analysing-->State_Reporting
+    State_Reporting-->State_Done
+    State_Done-->State_Idle
+
+```
+```mermaid
 flowchart LR
     start([Start])-->cond1{Complex sentence detected?}
     cond1-->|Yes| simplify1[Apply rule-based heuristics]
