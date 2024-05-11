@@ -47,6 +47,43 @@ sequenceDiagram
     Tool->>Tool: Generate report and simplification recommendations
     Tool->>User: Display report and recommendations
 ```
+```mermaid
+flowchart LR
+    start([Start])-->cond1{Complex sentence detected?}
+    cond1-->|Yes| simplify1[Apply rule-based heuristics]
+    simplify1-->cond2{Improved readability?}
+    cond2-->|Yes| done([Done])
+    cond2-->|No| simplify2[Apply machine learning model]
+    simplify2-->done
+
+    cond1-->|No| done
+```
+```mermaid
+---
+title: Readability Analyser Class Diagram
+---
+classDiagram
+    note "Readability Analyser and dependencies"
+    ReadabilityAnalyser <|-- TextstatLibrary
+    ReadabilityAnalyser <|-- SpacyLibrary
+    ReadabilityAnalyser <|-- SQLiteDatabase
+    class ReadabilityAnalyser{
+        -courseContent: string
+        -readabilityScores: object
+        -textStructure: object
+        +analyzeText()
+        +generateReport()
+    }
+    class TextstatLibrary{
+        +calculateReadabilityScores(text: string)
+    }
+    class SpacyLibrary{
+        +analyzeTextStructure(text: string)
+    }
+    class SQLiteDatabase{
+        +saveScanResults(courseId: int, results: object)
+    }
+```
 ### User Interfaces
 #### Login Page
 ##### Login Graph Diagram
