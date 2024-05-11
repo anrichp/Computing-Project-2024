@@ -22,6 +22,9 @@
 ## Design
 ### Tool Architecture
 ```mermaid
+---
+title: Sequence Diagram of Application Components
+---
 sequenceDiagram
     participant Moodle as "Moodle REST API"
     participant Tool as "Readability Analyser Tool"
@@ -73,6 +76,9 @@ stateDiagram-v2
 
 ```
 ```mermaid
+---
+title: Flow Diagram of Text Analysing
+---
 flowchart LR
     start([Start])-->cond1{Complex sentence detected?}
     cond1-->|Yes| simplify1[Apply rule-based heuristics]
@@ -113,6 +119,9 @@ classDiagram
 #### Login Page
 ##### Login Graph Diagram
 ```mermaid
+---
+title: Graph Diagram of Login Sequence
+---
 graph TD
     A[TextBox: Username] ---> | Enter Username | B[TextBox: Password]
     B ---> | Enter Password | C[Button: Login]
@@ -122,6 +131,9 @@ graph TD
 ```
 ##### Login Sequence Diagram
 ```mermaid
+---
+title: Sequence Diagram of Login Process
+---
 sequenceDiagram
     participant User as "User"
     participant LoginPage as "Login Page"
