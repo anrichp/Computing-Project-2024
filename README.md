@@ -23,6 +23,75 @@
 ### Tool Architecture
 ```mermaid
 ---
+title: Moodle Block Class Diagram
+---
+classDiagram
+
+class MoodleBlock {
+        -courseId: int
+        -content: string
+        +getCourseContent()
+        +sendContentToReadabilityAnalyser()
+        +displayReadabilityResults()
+        +displaySimplificationRecommendations()
+        +showReportingDashboard()
+        +displayScanSummary(Scan)
+    }
+    class Database {
+        -tables: Table[]
+        +getCourseContent(courseId: int)
+        +saveScanResults(scan: Scan)
+        +getScanResults(courseId: int): Scan
+    }
+    class ReadabilityAnalyser {
+        -text: string
+        -readabilityScores: dict
+        -structuralAnalysis: dict
+        +calculateReadability()
+        +performStructuralAnalysis()
+        +getSimplificationRecommendations()
+    }
+    class ReadabilityAnalysisModule {
+        +calculateFleschKincaid()
+        +calculateSMOG()
+        +calculateGradeLevel()
+    }
+    class SimplificationEngine {
+        +generateSimplificationRecommendations()
+    }
+    class ReportingInterface {
+        +displayReadabilityResults()
+        +displaySimplificationRecommendations()
+        +displayFullScanResults(Scan)
+        +getScanResultsFromDatabase(courseId: int): Scan
+    }
+    class Table {
+        -name: string
+        -fields: Field[]
+    }
+    class Field {
+        -name: string
+        -type: string
+    }
+    class Scan {
+        -id: int
+        -courseId: int
+        -readabilityScores: dict
+        -structuralAnalysis: dict
+    }
+    MoodleBlock --> ReadabilityAnalyser: uses
+    ReadabilityAnalyser --> ReadabilityAnalysisModule: uses
+    ReadabilityAnalyser --> SimplificationEngine: uses
+    MoodleBlock --> Database: uses
+    Database --> Table: stores
+    Table --> Field: stores
+    MoodleBlock --> ReportingInterface: uses
+    MoodleBlock --> Scan: displays summary
+    ReportingInterface --> Database: obtains scan results
+    ReportingInterface --> Scan: displays full results
+```
+```mermaid
+---
 title: Sequence Diagram of Application Components
 ---
 sequenceDiagram
