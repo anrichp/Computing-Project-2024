@@ -1,6 +1,7 @@
 # Computing Project 2024
 
 ## Contents
+
 - [Computing Project 2024](#computing-project-2024)
   - [Contents](#contents)
   - [Requirements Gathering](#requirements-gathering)
@@ -15,12 +16,14 @@
   - [Testing](#testing)
   - [Evlauation](#evlauation)
 
-## Requirements Gathering 
+## Requirements Gathering
 
 ## Analysis
 
 ## Design
+
 ### Tool Architecture
+
 ```mermaid
 ---
 title: Moodle Block Class Diagram
@@ -90,35 +93,31 @@ class MoodleBlock {
     ReportingInterface --> Database: obtains scan results
     ReportingInterface --> Scan: displays full results
 ```
+
 ```mermaid
 ---
 title: Sequence Diagram of Application Components
 ---
 sequenceDiagram
-    participant Moodle as "Moodle REST API"
-    participant Tool as "Readability Analyser Tool"
-    participant Textstat as "Textstat Library"
-    participant Spacy as "Spacy Library"
-    participant DB as "SQLite Database"
+    participant MoodleBlock as "Moodle Block"
+    participant ReadabilityAnalyser as "Readability Analyser"
+    participant SimplificationEngine as "Simplification Engine"
+    participant Database as "Database"
+    participant ReportingInterface as "Reporting Interface"
 
-    Note right of Moodle: Retrieve course content
-    Moodle->>Tool: GET /course/content
-    Tool->>Moodle: JSON response
-
-    Note right of Tool: Analyze text readability
-    Tool->>Textstat: Calculate readability scores
-    Textstat->>Tool: Readability scores
-    Tool->>Spacy: Analyze text structure
-    Spacy->>Tool: Text structure analysis
-
-    Note right of Tool: Store results in database
-    Tool->>DB: Save scan results
-    DB->>Tool: Saved successfully
-
-    Note right of Tool: Display results and recommendations
-    Tool->>Tool: Generate report and simplification recommendations
-    Tool->>User: Display report and recommendations
+    note left of MoodleBlock: User requests accessibility analysis
+    MoodleBlock->>ReadabilityAnalyser: Request analysis
+    ReadabilityAnalyser->>Database: Retrieve content
+    Database->>ReadabilityAnalyser: Return content
+    ReadabilityAnalyser->>ReadabilityAnalyser: Perform readability analysis
+    ReadabilityAnalyser->>SimplificationEngine: Request simplification recommendations
+    SimplificationEngine->>SimplificationEngine: Generate recommendations
+    SimplificationEngine->>ReadabilityAnalyser: Return recommendations
+    ReadabilityAnalyser->>ReportingInterface: Send analysis results
+    ReportingInterface->>ReportingInterface: Generate report
+    ReportingInterface->>MoodleBlock: Display report
 ```
+
 ```mermaid
 ---
 title: Sequence Diagram for Text Analyser
@@ -137,13 +136,14 @@ stateDiagram-v2
     note right of State_Done
         Results displayed to user
     end note
-    
+
     State_Idle-->State_Analysing: User selects course
     State_Analysing-->State_Reporting
     State_Reporting-->State_Done
     State_Done-->State_Idle
 
 ```
+
 ```mermaid
 ---
 title: Flow Diagram of Text Analysing
@@ -158,6 +158,7 @@ flowchart LR
 
     cond1-->|No| done
 ```
+
 ```mermaid
 ---
 title: Readability Analyser Class Diagram
@@ -184,9 +185,13 @@ classDiagram
         +saveScanResults(courseId: int, results: object)
     }
 ```
+
 ### User Interfaces
+
 #### Login Page
+
 ##### Login Graph Diagram
+
 ```mermaid
 ---
 title: Graph Diagram of Login Sequence
@@ -198,7 +203,9 @@ graph TD
     C ---> | Invalid Credentials | E[Error Message]
     E ---> | Try Again | A
 ```
+
 ##### Login Sequence Diagram
+
 ```mermaid
 ---
 title: Sequence Diagram of Login Process
@@ -214,6 +221,7 @@ sequenceDiagram
     LoginButton->>Authentication: authenticate
     Authentication->>User: authentication result
 ```
+
 ## Implementation
 
 ## Testing
