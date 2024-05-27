@@ -140,15 +140,15 @@ sequenceDiagram
 
 ```mermaid
 ---
-title: Sequence Diagram for Text Analyser
+title: State Diagram for Text Analyser
 ---
 stateDiagram-v2
-    State_Idle: Waiting for users input
+    State_Idle: Waiting for user action
     note left of State_Idle
-        Tool is waiting for a user to select a course
+        Block is waiting for user to press Scan button
     end note
     State_Analysing: Analysing text readability
-    State_Reporting: Generating report and reccomendations
+    State_Reporting: Generating report and recommendations
     note right of State_Reporting
         Report is being generated
     end note
@@ -157,10 +157,10 @@ stateDiagram-v2
         Results displayed to user
     end note
 
-    State_Idle-->State_Analysing: User selects course
-    State_Analysing-->State_Reporting
-    State_Reporting-->State_Done
-    State_Done-->State_Idle
+    State_Idle-->State_Analysing: User presses Scan button
+    State_Analysing-->State_Reporting: Analysis complete
+    State_Reporting-->State_Done: Report generated
+    State_Done-->State_Idle: User views results
 
 ```
 
