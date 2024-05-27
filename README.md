@@ -163,6 +163,28 @@ stateDiagram-v2
     State_Done-->State_Idle: User views results
 
 ```
+```mermaid
+---
+title: Entity Relationship Diagram
+---
+erDiagram
+    USER ||--o{ TEXT-ANALYSIS : requests
+    USER {
+        string name
+        string email
+    }
+    TEXT-ANALYSIS ||--|{ REPORT : generates
+    TEXT-ANALYSIS {
+        int analysisId
+        string textInput
+        string analysisResult
+    }
+    REPORT {
+        string reportSummary
+        string recommendations
+        float readabilityScore
+    }
+```
 
 ```mermaid
 ---
