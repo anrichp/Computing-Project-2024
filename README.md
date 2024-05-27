@@ -12,9 +12,8 @@
   - [Design](#design)
     - [Tool Architecture](#tool-architecture)
     - [User Interfaces](#user-interfaces)
-      - [Login Page](#login-page)
-        - [Login Graph Diagram](#login-graph-diagram)
-        - [Login Sequence Diagram](#login-sequence-diagram)
+      - [Scan Button and Report Display](#scan-button-and-report-display)
+        - [Moodle Block Interface](#moodle-block-interface)
   - [Implementation](#implementation)
   - [Testing](#testing)
   - [Evlauation](#evlauation)
@@ -202,38 +201,32 @@ flowchart LR
 ```
 ### User Interfaces
 
-#### Login Page
-
-##### Login Graph Diagram
+#### Scan Button and Report Display
 
 ```mermaid
 ---
-title: Graph Diagram of Login Sequence
+title: Flow Diagram of Scan Process
 ---
-graph TD
-    A[TextBox: Username] ---> | Enter Username | B[TextBox: Password]
-    B ---> | Enter Password | C[Button: Login]
-    C ---> | Login Successful | D[Main Application]
-    C ---> | Invalid Credentials | E[Error Message]
-    E ---> | Try Again | A
+flowchart LR
+    A[Scan Button] -- click --> B[Text Analyzer]
+    B -- analysis --> C[Report Display]
+    C -- display --> D[Readability Scores]
+    C -- display --> E[Text Structure Analysis]
+    C -- display --> F[Recommendations]
 ```
 
-##### Login Sequence Diagram
+##### Moodle Block Interface
 
 ```mermaid
 ---
-title: Sequence Diagram of Login Process
+title: Flow Diagram Showing Block Interface
 ---
-sequenceDiagram
-    participant User as "User"
-    participant LoginPage as "Login Page"
-    participant LoginButton as "Login Button"
-    participant Authentication as "Authentication"
-
-    User->>LoginPage: enter username and password
-    LoginPage->>LoginButton: click login
-    LoginButton->>Authentication: authenticate
-    Authentication->>User: authentication result
+flowchart LR
+    A[Moodle Block] -- contains --> B[Scan Button]
+    A -- contains --> C[Report Display]
+    C -- display --> D[Readability Scores]
+    C -- display --> E[Text Structure Analysis]
+    C -- display --> F[Recommendations]
 ```
 
 ## Implementation
