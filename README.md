@@ -13,7 +13,7 @@
     - [Tool Architecture](#tool-architecture)
     - [User Interfaces](#user-interfaces)
       - [Scan Button and Report Display](#scan-button-and-report-display)
-        - [Moodle Block Interface](#moodle-block-interface)
+      - [Moodle Block Interface](#moodle-block-interface)
   - [Implementation](#implementation)
   - [Testing](#testing)
   - [Evlauation](#evlauation)
@@ -215,7 +215,7 @@ flowchart LR
     C -- display --> F[Recommendations]
 ```
 
-##### Moodle Block Interface
+#### Moodle Block Interface
 
 ```mermaid
 ---
