@@ -200,34 +200,6 @@ flowchart LR
 
     cond1-->|No| done
 ```
-
-```mermaid
----
-title: Readability Analyser Class Diagram
----
-classDiagram
-    note "Readability Analyser and dependencies"
-    ReadabilityAnalyser <|-- TextstatLibrary
-    ReadabilityAnalyser <|-- SpacyLibrary
-    ReadabilityAnalyser <|-- SQLiteDatabase
-    class ReadabilityAnalyser{
-        -courseContent: string
-        -readabilityScores: object
-        -textStructure: object
-        +analyzeText()
-        +generateReport()
-    }
-    class TextstatLibrary{
-        +calculateReadabilityScores(text: string)
-    }
-    class SpacyLibrary{
-        +analyzeTextStructure(text: string)
-    }
-    class SQLiteDatabase{
-        +saveScanResults(courseId: int, results: object)
-    }
-```
-
 ### User Interfaces
 
 #### Login Page
