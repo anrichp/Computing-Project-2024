@@ -167,22 +167,24 @@ stateDiagram-v2
 title: Entity Relationship Diagram
 ---
 erDiagram
-    USER ||--o{ TEXT-ANALYSIS : requests
-    USER {
-        string name
-        string email
+    READABILITY_SCORES {
+        INTEGER id PK
+        INTEGER userid
+        INTEGER score
+        TEXT selectedtext
+        TEXT pageurl
+        INTEGER timecreated
     }
-    TEXT-ANALYSIS ||--|{ REPORT : generates
-    TEXT-ANALYSIS {
-        int analysisId
-        string textInput
-        string analysisResult
+
+    USERS {
+        INTEGER id PK
+        VARCHAR username
+        VARCHAR email
+        VARCHAR password
     }
-    REPORT {
-        string reportSummary
-        string recommendations
-        float readabilityScore
-    }
+
+    READABILITY_SCORES }|..|| USERS : "belongs to"
+
 ```
 
 ```mermaid
