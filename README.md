@@ -72,69 +72,37 @@ graph TD
 title: Moodle Block Class Diagram
 ---
 classDiagram
-
-class MoodleBlock {
-        -courseId: int
-        -content: string
-        +getCourseContent()
-        +sendContentToReadabilityAnalyser()
-        +displayReadabilityResults()
-        +displaySimplificationRecommendations()
-        +showReportingDashboard()
-        +displayScanSummary(Scan)
+    class block_readabilityscore {
+        - title: string
+        - content: string
+        + init()
+        + specialization()
+        + get_content()
+        + applicable_formats()
     }
-    class Database {
-        -tables: Table[]
-        +getCourseContent(courseId: int)
-        +saveScanResults(scan: Scan)
-        +getScanResults(courseId: int): Scan
+    class block_readabilityscore_external {
+        + process_text(selectedtext: string, pageurl: string)
+        + process_text_parameters()
+        + process_text_returns()
     }
-    class ReadabilityAnalyser {
-        -text: string
-        -readabilityScores: dict
-        -structuralAnalysis: dict
-        +calculateReadability()
-        +performStructuralAnalysis()
-        +getSimplificationRecommendations()
+    class external_api {
+        + validate_parameters(params: object, data: object)
     }
-    class ReadabilityAnalysisModule {
-        +calculateFleschKincaid()
-        +calculateSMOG()
-        +calculateGradeLevel()
+    block_readabilityscore --> block_readabilityscore_external : extends
+    block_readabilityscore_external --> external_api : extends
+    class readability_score {
+        + calculate_readability_score(text: string)
     }
-    class SimplificationEngine {
-        +generateSimplificationRecommendations()
+    class lib {
+        + readability_score(text: string)
+        + count_syllables(word: string)
+        + count_words_custom(text: string)
+        + count_sentences(text: string)
+        + calculate_readability_score(text: string)
+        + store_readability_score(userid: int, score: int, selectedtext: string, pageurl: string)
     }
-    class ReportingInterface {
-        +displayReadabilityResults()
-        +displaySimplificationRecommendations()
-        +displayFullScanResults(Scan)
-        +getScanResultsFromDatabase(courseId: int): Scan
-    }
-    class Table {
-        -name: string
-        -fields: Field[]
-    }
-    class Field {
-        -name: string
-        -type: string
-    }
-    class Scan {
-        -id: int
-        -courseId: int
-        -readabilityScores: dict
-        -structuralAnalysis: dict
-    }
-    MoodleBlock --> ReadabilityAnalyser: uses
-    ReadabilityAnalyser --> ReadabilityAnalysisModule: uses
-    ReadabilityAnalyser --> SimplificationEngine: uses
-    MoodleBlock --> Database: uses
-    Database --> Table: stores
-    Table --> Field: stores
-    MoodleBlock --> ReportingInterface: uses
-    MoodleBlock --> Scan: displays summary
-    ReportingInterface --> Database: obtains scan results
-    ReportingInterface --> Scan: displays full results
+    block_readabilityscore --> lib : uses
+    block_readabilityscore_external --> lib : uses
 ```
 
 ```mermaid
