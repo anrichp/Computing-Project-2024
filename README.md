@@ -129,27 +129,30 @@ sequenceDiagram
 
 ```mermaid
 ---
-title: State Diagram for Text Analyser
+title: State Diagram for Moodle Block
 ---
-stateDiagram-v2
-    State_Idle: Waiting for user action
-    note left of State_Idle
-        Block is waiting for user to press Scan button
-    end note
-    State_Analysing: Analysing text readability
-    State_Reporting: Generating report and recommendations
-    note right of State_Reporting
-        Report is being generated
-    end note
-    State_Done: Results displayed
-    note right of State_Done
-        Results displayed to user
-    end note
-
-    State_Idle-->State_Analysing: User presses Scan button
-    State_Analysing-->State_Reporting: Analysis complete
-    State_Reporting-->State_Done: Report generated
-    State_Done-->State_Idle: User views results
+stateDiagram
+    state ReadabilityScoreBlock {
+        [*] --> Idle
+        Idle --> GettingContent : get_content()
+        GettingContent --> ShowingContent : content generated
+        ShowingContent --> Idle : user interaction
+        Idle --> Uninstalling : uninstall.php
+        Uninstalling --> [*]
+    }
+    state GettingContent {
+        [*] --> FetchingData
+        FetchingData --> ProcessingData : data fetched
+        ProcessingData --> GeneratingContent : data processed
+        GeneratingContent --> [*]
+    }
+    state ProcessingData {
+        [*] --> CalculatingScore
+        CalculatingScore --> CountingSyllables : score calculated
+        CountingSyllables --> CountingWords : syllables counted
+        CountingWords --> CountingSentences : words counted
+        CountingSentences --> CalculatingScore : sentences counted
+    }
 
 ```
 ```mermaid
