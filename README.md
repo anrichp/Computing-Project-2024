@@ -150,7 +150,6 @@ stateDiagram
         CountingWords --> CountingSentences : words counted
         CountingSentences --> CalculatingScore : sentences counted
     }
-
 ```
 ```mermaid
 ---
