@@ -157,6 +157,23 @@ stateDiagram
 ```
 ```mermaid
 ---
+title: Flow Diagram of Moodle Block
+---
+flowchart TD
+    start --> fetchSelectedText
+    fetchSelectedText --> calculateReadabilityScore
+    calculateReadabilityScore --> countSyllables
+    countSyllables --> countWords
+    countWords --> countSentences
+    countSentences --> calculateReadabilityScore
+    calculateReadabilityScore --> generateContent
+    generateContent --> storeScanInDatabase
+    storeScanInDatabase --> showContent
+    showContent --> stop
+
+```
+```mermaid
+---
 title: Entity Relationship Diagram
 ---
 erDiagram
