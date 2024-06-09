@@ -11,9 +11,6 @@
   - [Analysis](#analysis)
   - [Design](#design)
     - [Tool Architecture](#tool-architecture)
-    - [User Interfaces](#user-interfaces)
-      - [Scan Button and Report Display](#scan-button-and-report-display)
-      - [Moodle Block Interface](#moodle-block-interface)
   - [Implementation](#implementation)
   - [Testing](#testing)
   - [Evlauation](#evlauation)
@@ -211,36 +208,6 @@ flowchart LR
 
     cond1-->|No| done
 ```
-### User Interfaces
-
-#### Scan Button and Report Display
-
-```mermaid
----
-title: Flow Diagram of Scan Process
----
-flowchart LR
-    A[Scan Button] -- click --> B[Text Analyzer]
-    B -- analysis --> C[Report Display]
-    C -- display --> D[Readability Scores]
-    C -- display --> E[Text Structure Analysis]
-    C -- display --> F[Recommendations]
-```
-
-#### Moodle Block Interface
-
-```mermaid
----
-title: Flow Diagram Showing Block Interface
----
-flowchart LR
-    A[Moodle Block] -- contains --> B[Scan Button]
-    A -- contains --> C[Report Display]
-    C -- display --> D[Readability Scores]
-    C -- display --> E[Text Structure Analysis]
-    C -- display --> F[Recommendations]
-```
-
 ## Implementation
 
 ## Testing
