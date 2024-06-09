@@ -139,26 +139,24 @@ class MoodleBlock {
 
 ```mermaid
 ---
-title: Sequence Diagram of Application Components
+title: Sequence Diagram of Readability Block
 ---
 sequenceDiagram
-    participant MoodleBlock as "Moodle Block"
-    participant ReadabilityAnalyser as "Readability Analyser"
-    participant SimplificationEngine as "Simplification Engine"
-    participant Database as "Database"
-    participant ReportingInterface as "Reporting Interface"
+    participant Client
+    participant block_readabilityscore
+    participant externallib
+    participant lib
+    participant db
 
-    note left of MoodleBlock: User requests accessibility analysis
-    MoodleBlock->>ReadabilityAnalyser: Request analysis
-    ReadabilityAnalyser->>Database: Retrieve content
-    Database->>ReadabilityAnalyser: Return content
-    ReadabilityAnalyser->>ReadabilityAnalyser: Perform readability analysis
-    ReadabilityAnalyser->>SimplificationEngine: Request simplification recommendations
-    SimplificationEngine->>SimplificationEngine: Generate recommendations
-    SimplificationEngine->>ReadabilityAnalyser: Return recommendations
-    ReadabilityAnalyser->>ReportingInterface: Send analysis results
-    ReportingInterface->>ReportingInterface: Generate report
-    ReportingInterface->>MoodleBlock: Display report
+    Client ->> block_readabilityscore: Request to process text
+    block_readabilityscore ->> externallib: Call process_text(selectedtext, pageurl)
+    externallib ->> lib: Call calculate_readability_score(selectedtext)
+    lib ->> lib: Perform calculations
+    lib ->> db: Store readability score
+    db -->> lib: Confirmation
+    lib -->> externallib: Return readability score
+    externallib -->> block_readabilityscore: Return readability score
+    block_readabilityscore -->> Client: Return readability score
 ```
 
 ```mermaid
