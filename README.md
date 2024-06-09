@@ -193,21 +193,6 @@ erDiagram
     READABILITY_SCORES }|..|| USERS : "belongs to"
 
 ```
-
-```mermaid
----
-title: Flow Diagram of Text Analysing
----
-flowchart LR
-    start([Start])-->cond1{Complex sentence detected?}
-    cond1-->|Yes| simplify1[Apply rule-based heuristics]
-    simplify1-->cond2{Improved readability?}
-    cond2-->|Yes| done([Done])
-    cond2-->|No| simplify2[Apply machine learning model]
-    simplify2-->done
-
-    cond1-->|No| done
-```
 ## Implementation
 
 ## Testing
