@@ -42,6 +42,30 @@
 ## Design
 
 ### Tool Architecture
+```mermaid
+---
+title: Moodle Block Project Structure
+---
+graph TD
+    A[block_readabilityscore] --> B[lang]
+    B --> C[en]
+    C --> D[block_readabilityscore.php]
+    A --> E[db]
+    A --> F[amd]
+    A --> G[lib.php]
+    A --> H[block_readabilityscore.php]
+    A --> I[version.php]
+    A --> J[externallib.php]
+    A --> K[tests]
+    K --> L[behat]
+    E --> M[access.php]
+    E --> N[install.php]
+    E --> O[services.php]
+    E --> P[uninstall.php]
+    F --> Q[src]
+    Q --> R[main.js]
+    Q --> S[repository.js]
+```
 
 ```mermaid
 ---
