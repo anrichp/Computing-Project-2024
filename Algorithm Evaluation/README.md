@@ -2,6 +2,9 @@
 
 ## Design Diagrams
 ```mermaid
+---
+title: Flow Diagram
+---
 graph TD
     A[Start] --> B[Set up Logging]
     B --> C[Define Root Directory and Subdirectories]
@@ -23,6 +26,9 @@ graph TD
 
 ```
 ```mermaid
+---
+title: Class Diagram
+---
 classDiagram
     class Logger {
         -level : INFO
