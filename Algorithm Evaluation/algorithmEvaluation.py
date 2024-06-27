@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 
 # Define the root directory and the subdirectories with the corresponding human readability levels
-root_dir = "Texts-SeparatedByReadingLevel"
+root_dir = "Algorithm Evaluation/Texts-SeparatedByReadingLevel"
 directories = {
     "Int-Txt": "Intermediate",
     "Ele-Txt": "Elementary",
