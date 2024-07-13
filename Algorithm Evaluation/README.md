@@ -59,3 +59,29 @@ classDiagram
     DataFrameManager -- ReadabilityCalculator
 
 ```
+```mermaid
+---
+title: Sequence Diagram
+---
+sequenceDiagram
+    participant User
+    participant Block UI
+    participant main.js
+    participant repository.js
+    participant externallib.php
+    participant lib.php
+    participant Database
+
+    User->>Block UI: Clicks 'Scan' button
+    Block UI->>main.js: Trigger scan event
+    main.js->>User: Prompt to select text
+    User->>main.js: Selects text
+    main.js->>repository.js: Send selected text
+    repository.js->>externallib.php: AJAX call (processText)
+    externallib.php->>lib.php: Calculate readability score
+    lib.php->>externallib.php: Return score
+    externallib.php->>Database: Store result
+    externallib.php->>repository.js: Return result
+    repository.js->>main.js: Display score
+    main.js->>Block UI: Update UI with score
+```
