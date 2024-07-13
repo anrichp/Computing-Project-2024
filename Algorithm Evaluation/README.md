@@ -30,80 +30,36 @@ graph TD
 title: Class Diagram
 ---
 classDiagram
-    class block_base {
-        <<Moodle Core>>
-        +instance
-        +config
-        +title
-        +content
-        +init()
-        +specialization()
-        +applicable_formats()
-        +instance_allow_multiple()
-        +get_content()
-        +hide_header()
-    }
-    class block_readabilityscore {
-        +init()
-        +specialization()
-        +applicable_formats()
-        +get_content()
-    }
-    class TextStatistics {
-        +word_count(text)
-        +sentence_count(text)
-        +complex_word_count(text)
-        -is_complex_word(word)
-        -syllable_count(word)
-        +gunning_fog(text)
-    }
-    class block_readabilityscore_external {
-        +process_text_parameters()
-        +process_text(selectedtext, pageurl)
-        +process_text_returns()
-    }
-    class external_api {
-        <<Moodle Core>>
-        +validate_parameters()
-        +validate_context()
-        +get_context_from_params()
-    }
-    class Dashboard {
-        +display_readability_levels()
-        +display_scans()
-        +filter_by_page_url()
+    class Logger {
+        -level : INFO
+        -format : string
+        +basicConfig()
     }
 
-    block_base <|-- block_readabilityscore
-    block_readabilityscore ..> TextStatistics : uses
-    external_api <|-- block_readabilityscore_external
-    block_readabilityscore_external ..> TextStatistics : uses
-    block_readabilityscore ..> Dashboard : links to
+    class FileManager {
+        -root_dir : string
+        -directories : dict
+        +iterate_directories()
+    }
+
+    class ReadabilityCalculator {
+        +get_readability_scores(text : string) : dict
+    }
+
+    class DataFrameManager {
+        -readability_data : list
+        +create_dataframe(data : list) : DataFrame
+        +export_to_excel(df : DataFrame, filename : string)
+    }
+
+    Logger -- FileManager
+    Logger -- ReadabilityCalculator
+    FileManager -- ReadabilityCalculator
+    FileManager -- DataFrameManager
+    DataFrameManager -- ReadabilityCalculator
 
 ```
 ```mermaid
 ---
 title: Sequence Diagram
 ---
-sequenceDiagram
-    participant User
-    participant Block UI
-    participant main.js
-    participant repository.js
-    participant externallib.php
-    participant lib.php
-    participant Database
-
-    User->>Block UI: Clicks 'Scan' button
-    Block UI->>main.js: Trigger scan event
-    main.js->>User: Prompt to select text
-    User->>main.js: Selects text
-    main.js->>repository.js: Send selected text
-    repository.js->>externallib.php: AJAX call (processText)
-    externallib.php->>lib.php: Calculate readability score
-    lib.php->>externallib.php: Return score
-    externallib.php->>Database: Store result
-    externallib.php->>repository.js: Return result
-    repository.js->>main.js: Display score
-    main.js->>Block UI: Update UI with score
-```
