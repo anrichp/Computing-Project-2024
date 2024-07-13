@@ -30,33 +30,55 @@ graph TD
 title: Class Diagram
 ---
 classDiagram
-    class Logger {
-        -level : INFO
-        -format : string
-        +basicConfig()
+    class block_base {
+        <<Moodle Core>>
+        +instance
+        +config
+        +title
+        +content
+        +init()
+        +specialization()
+        +applicable_formats()
+        +instance_allow_multiple()
+        +get_content()
+        +hide_header()
+    }
+    class block_readabilityscore {
+        +init()
+        +specialization()
+        +applicable_formats()
+        +get_content()
+    }
+    class TextStatistics {
+        +word_count(text)
+        +sentence_count(text)
+        +complex_word_count(text)
+        -is_complex_word(word)
+        -syllable_count(word)
+        +gunning_fog(text)
+    }
+    class block_readabilityscore_external {
+        +process_text_parameters()
+        +process_text(selectedtext, pageurl)
+        +process_text_returns()
+    }
+    class external_api {
+        <<Moodle Core>>
+        +validate_parameters()
+        +validate_context()
+        +get_context_from_params()
+    }
+    class Dashboard {
+        +display_readability_levels()
+        +display_scans()
+        +filter_by_page_url()
     }
 
-    class FileManager {
-        -root_dir : string
-        -directories : dict
-        +iterate_directories()
-    }
-
-    class ReadabilityCalculator {
-        +get_readability_scores(text : string) : dict
-    }
-
-    class DataFrameManager {
-        -readability_data : list
-        +create_dataframe(data : list) : DataFrame
-        +export_to_excel(df : DataFrame, filename : string)
-    }
-
-    Logger -- FileManager
-    Logger -- ReadabilityCalculator
-    FileManager -- ReadabilityCalculator
-    FileManager -- DataFrameManager
-    DataFrameManager -- ReadabilityCalculator
+    block_base <|-- block_readabilityscore
+    block_readabilityscore ..> TextStatistics : uses
+    external_api <|-- block_readabilityscore_external
+    block_readabilityscore_external ..> TextStatistics : uses
+    block_readabilityscore ..> Dashboard : links to
 
 ```
 ```mermaid
