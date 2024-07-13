@@ -69,37 +69,55 @@ graph TD
 title: Moodle Block Class Diagram
 ---
 classDiagram
+    class block_base {
+        <<Moodle Core>>
+        +instance
+        +config
+        +title
+        +content
+        +init()
+        +specialization()
+        +applicable_formats()
+        +instance_allow_multiple()
+        +get_content()
+        +hide_header()
+    }
     class block_readabilityscore {
-        - title: string
-        - content: string
-        + init()
-        + specialization()
-        + get_content()
-        + applicable_formats()
+        +init()
+        +specialization()
+        +applicable_formats()
+        +get_content()
+    }
+    class TextStatistics {
+        +word_count(text)
+        +sentence_count(text)
+        +complex_word_count(text)
+        -is_complex_word(word)
+        -syllable_count(word)
+        +gunning_fog(text)
     }
     class block_readabilityscore_external {
-        + process_text(selectedtext: string, pageurl: string)
-        + process_text_parameters()
-        + process_text_returns()
+        +process_text_parameters()
+        +process_text(selectedtext, pageurl)
+        +process_text_returns()
     }
     class external_api {
-        + validate_parameters(params: object, data: object)
+        <<Moodle Core>>
+        +validate_parameters()
+        +validate_context()
+        +get_context_from_params()
     }
-    block_readabilityscore --> block_readabilityscore_external : extends
-    block_readabilityscore_external --> external_api : extends
-    class readability_score {
-        + calculate_readability_score(text: string)
+    class Dashboard {
+        +display_readability_levels()
+        +display_scans()
+        +filter_by_page_url()
     }
-    class lib {
-        + readability_score(text: string)
-        + count_syllables(word: string)
-        + count_words_custom(text: string)
-        + count_sentences(text: string)
-        + calculate_readability_score(text: string)
-        + store_readability_score(userid: int, score: int, selectedtext: string, pageurl: string)
-    }
-    block_readabilityscore --> lib : uses
-    block_readabilityscore_external --> lib : uses
+
+    block_base <|-- block_readabilityscore
+    block_readabilityscore ..> TextStatistics : uses
+    external_api <|-- block_readabilityscore_external
+    block_readabilityscore_external ..> TextStatistics : uses
+    block_readabilityscore ..> Dashboard : links to
 ```
 
 ```mermaid
@@ -107,21 +125,26 @@ classDiagram
 title: Sequence Diagram of Readability Block
 ---
 sequenceDiagram
-    participant Client
-    participant block_readabilityscore
-    participant externallib
-    participant lib
-    participant db
+    participant User
+    participant Block UI
+    participant main.js
+    participant repository.js
+    participant externallib.php
+    participant lib.php
+    participant Database
 
-    Client ->> block_readabilityscore: Request to process text
-    block_readabilityscore ->> externallib: Call process_text(selectedtext, pageurl)
-    externallib ->> lib: Call calculate_readability_score(selectedtext)
-    lib ->> lib: Perform calculations
-    lib ->> db: Store readability score
-    db -->> lib: Confirmation
-    lib -->> externallib: Return readability score
-    externallib -->> block_readabilityscore: Return readability score
-    block_readabilityscore -->> Client: Return readability score
+    User->>Block UI: Clicks 'Scan' button
+    Block UI->>main.js: Trigger scan event
+    main.js->>User: Prompt to select text
+    User->>main.js: Selects text
+    main.js->>repository.js: Send selected text
+    repository.js->>externallib.php: AJAX call (processText)
+    externallib.php->>lib.php: Calculate readability score
+    lib.php->>externallib.php: Return score
+    externallib.php->>Database: Store result
+    externallib.php->>repository.js: Return result
+    repository.js->>main.js: Display score
+    main.js->>Block UI: Update UI with score
 ```
 
 ```mermaid
